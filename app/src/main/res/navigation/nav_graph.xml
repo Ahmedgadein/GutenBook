@@ -3,11 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeFragment">
-
+    app:startDestination="@id/books">
     <fragment
-        android:id="@+id/homeFragment"
-        android:name="com.ahmedgadein.gutenbook.HomeFragment"
-        android:label="home_fragment"
-        tools:layout="@layout/home_fragment" />
+        android:id="@+id/books"
+        android:name="com.ahmedgadein.gutenbook.presentation.books.BooksFragment"
+        android:label="books_fragment"
+        tools:layout="@layout/books_fragment" />
+    <fragment
+        android:id="@+id/savedBooks"
+        android:name="com.ahmedgadein.gutenbook.presentation.savedbooks.SavedBooks"
+        android:label="saved_books_fragment"
+        tools:layout="@layout/saved_books_fragment" />
 </navigation>
