@@ -1,32 +1,55 @@
 package com.ahmedgadein.gutenbook.presentation.books
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.ahmedgadein.gutenbook.R
+import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.ahmedgadein.gutenbook.adapter.BookAdapter
+import com.ahmedgadein.gutenbook.databinding.BooksFragmentBinding
+import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 
+@AndroidEntryPoint
 class BooksFragment : Fragment() {
-
-    companion object {
-        fun newInstance() = BooksFragment()
-    }
-
-    private lateinit var viewModel: BooksViewModel
+    private val viewModel: BooksViewModel by viewModels()
+    lateinit var binding: BooksFragmentBinding
+    lateinit var bookAdapter: BookAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.books_fragment, container, false)
+    ): View {
+        binding = BooksFragmentBinding.inflate(inflater, container, false)
+        setUI()
+        return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(BooksViewModel::class.java)
-        // TODO: Use the ViewModel
+    private fun setUI() {
+        bookAdapter = BookAdapter()
+        binding.booksRecyclerView.apply {
+            adapter = bookAdapter
+            layoutManager = LinearLayoutManager(requireContext())
+        }
+        lifecycleScope.launchWhenCreated {
+            viewModel.state.collect {
+                binding.progressBar.isVisible = it.loading
+                it.messages.firstOrNull()?.let {
+                    showSnackbar(it.content)
+                    viewModel.messageShown(it.id)
+                }
+                bookAdapter.submitList(it.books)
+            }
+        }
     }
 
+    fun showSnackbar(message: String) {
+        Snackbar.make(view!!, message, Snackbar.LENGTH_SHORT)
+            .show()
+    }
 }
