@@ -5,8 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.ahmedgadein.gutenbook.R
 import com.ahmedgadein.gutenbook.data.models.Book
 import com.ahmedgadein.gutenbook.databinding.BookItemListBinding
+import com.bumptech.glide.Glide
 
 class BookAdapter : ListAdapter<Book, RecyclerView.ViewHolder>(BookDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -29,6 +31,11 @@ class BookAdapter : ListAdapter<Book, RecyclerView.ViewHolder>(BookDiffCallback(
 
         fun bind(book: Book) {
             binding.bookName.text = book.title
+            Glide.with(itemView)
+                .load(book.formats.imagejpeg)
+                .placeholder(R.drawable.ic_book_placeholder)
+                .fitCenter()
+                .into(binding.bookPhoto)
         }
 
     }

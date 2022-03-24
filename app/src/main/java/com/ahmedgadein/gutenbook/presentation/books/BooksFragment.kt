@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.ahmedgadein.gutenbook.adapter.BookAdapter
 import com.ahmedgadein.gutenbook.databinding.BooksFragmentBinding
 import com.google.android.material.snackbar.Snackbar
@@ -34,7 +34,7 @@ class BooksFragment : Fragment() {
         bookAdapter = BookAdapter()
         binding.booksRecyclerView.apply {
             adapter = bookAdapter
-            layoutManager = LinearLayoutManager(requireContext())
+            layoutManager = GridLayoutManager(requireContext(),2)
         }
         lifecycleScope.launchWhenCreated {
             viewModel.state.collect {
@@ -48,7 +48,7 @@ class BooksFragment : Fragment() {
         }
     }
 
-    fun showSnackbar(message: String) {
+    private fun showSnackbar(message: String) {
         Snackbar.make(view!!, message, Snackbar.LENGTH_SHORT)
             .show()
     }
