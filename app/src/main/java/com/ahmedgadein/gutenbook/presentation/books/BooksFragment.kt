@@ -1,11 +1,10 @@
 package com.ahmedgadein.gutenbook.presentation.books
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -22,7 +21,8 @@ class BooksFragment : Fragment() {
     lateinit var bookAdapter: BookAdapter
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = BooksFragmentBinding.inflate(inflater, container, false)
@@ -34,16 +34,19 @@ class BooksFragment : Fragment() {
         bookAdapter = BookAdapter()
         binding.booksRecyclerView.apply {
             adapter = bookAdapter
-            layoutManager = GridLayoutManager(requireContext(),2)
+            layoutManager = GridLayoutManager(requireContext(), 2)
         }
         lifecycleScope.launchWhenCreated {
             viewModel.state.collect {
-                binding.progressBar.isVisible = it.loading
-                it.messages.firstOrNull()?.let {
-                    showSnackbar(it.content)
-                    viewModel.messageShown(it.id)
+                viewModel.state.collect {
+                    bookAdapter.submitData(it)
                 }
-                bookAdapter.submitList(it.books)
+//                binding.progressBar.isVisible = it.loading
+//                it.messages.firstOrNull()?.let {
+//                    showSnackbar(it.content)
+//                    viewModel.messageShown(it.id)
+//                }
+//                bookAdapter.submitList(it.books)
             }
         }
     }
