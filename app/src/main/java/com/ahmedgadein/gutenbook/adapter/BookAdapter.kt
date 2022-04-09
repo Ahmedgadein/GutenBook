@@ -2,12 +2,15 @@ package com.ahmedgadein.gutenbook.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ahmedgadein.gutenbook.R
 import com.ahmedgadein.gutenbook.data.models.Book
 import com.ahmedgadein.gutenbook.databinding.BookItemListBinding
+import com.ahmedgadein.gutenbook.presentation.books.BooksFragmentDirections
 import com.bumptech.glide.Glide
 
 class BookAdapter : ListAdapter<Book, RecyclerView.ViewHolder>(BookDiffCallback()) {
@@ -28,19 +31,31 @@ class BookAdapter : ListAdapter<Book, RecyclerView.ViewHolder>(BookDiffCallback(
 
     private class BookViewHolder(private val binding: BookItemListBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        private var book: Book? = null
+
+        init {
+            itemView.setOnClickListener {
+                navigateToDetails()
+            }
+        }
+
+        private fun navigateToDetails() {
+            book?.let {
+                itemView.findNavController()
+                    .navigate(BooksFragmentDirections.actionBooksToBookDetailFragment(it.id))
+            }
+        }
 
         fun bind(book: Book) {
-            binding.bookName.text = book.title
+            this.book = book
             Glide.with(itemView)
                 .load(book.formats.imagejpeg)
                 .placeholder(R.drawable.ic_book_placeholder)
                 .fitCenter()
                 .into(binding.bookPhoto)
         }
-
     }
 }
-
 
 private class BookDiffCallback : DiffUtil.ItemCallback<Book>() {
 

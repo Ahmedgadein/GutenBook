@@ -8,10 +8,23 @@
         android:id="@+id/books"
         android:name="com.ahmedgadein.gutenbook.presentation.books.BooksFragment"
         android:label="books_fragment"
-        tools:layout="@layout/books_fragment" />
+        tools:layout="@layout/books_fragment" >
+        <action
+            android:id="@+id/action_books_to_bookDetailFragment"
+            app:destination="@id/bookDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/savedBooks"
         android:name="com.ahmedgadein.gutenbook.presentation.savedbooks.SavedBooks"
         android:label="saved_books_fragment"
         tools:layout="@layout/saved_books_fragment" />
+    <fragment
+        android:id="@+id/bookDetailFragment"
+        android:name="com.ahmedgadein.gutenbook.presentation.book_detail.BookDetailFragment"
+        android:label="book_detail_fragment"
+        tools:layout="@layout/book_detail_fragment" >
+        <argument
+            android:name="bookId"
+            app:argType="integer" />
+    </fragment>
 </navigation>

@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 data class Book(
     @SerializedName("authors")
-    val authors: List<Author>,
+    val authors: List<Person>,
     @SerializedName("bookshelves")
     val bookshelves: List<String>,
     @SerializedName("copyright")
@@ -25,5 +25,5 @@ data class Book(
     @SerializedName("title")
     val title: String,
     @SerializedName("translators")
-    val translators: List<Any>
+    val translators: List<Person>
 )

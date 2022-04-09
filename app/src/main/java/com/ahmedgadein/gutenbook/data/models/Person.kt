@@ -3,7 +3,7 @@ package com.ahmedgadein.gutenbook.data.models
 
 import com.google.gson.annotations.SerializedName
 
-data class Author(
+data class Person(
     @SerializedName("birth_year")
     val birthYear: Int,
     @SerializedName("death_year")
