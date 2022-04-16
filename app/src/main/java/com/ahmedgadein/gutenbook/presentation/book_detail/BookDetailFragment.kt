@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -26,6 +27,8 @@ class BookDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = BookDetailFragmentBinding.inflate(inflater, container, false)
+        (activity as AppCompatActivity?)!!.setSupportActionBar(binding.collapsingActionBar)
+
         setUI()
         return binding.root
     }
@@ -75,6 +78,7 @@ class BookDetailFragment : Fragment() {
                             binding.noTranslatorsTextView.isVisible = true
                         translatorAdapter.submitList(it)
                     }
+                    binding.book = it
                 }
             }
         }
