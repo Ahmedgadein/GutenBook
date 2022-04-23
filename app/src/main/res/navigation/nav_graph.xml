@@ -17,7 +17,11 @@
         android:id="@+id/savedBooks"
         android:name="com.ahmedgadein.gutenbook.presentation.savedbooks.SavedBooks"
         android:label="saved_books_fragment"
-        tools:layout="@layout/saved_books_fragment" />
+        tools:layout="@layout/saved_books_fragment" >
+        <action
+            android:id="@+id/action_savedBooks_to_bookDetailFragment"
+            app:destination="@id/bookDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/bookDetailFragment"
         android:name="com.ahmedgadein.gutenbook.presentation.book_detail.BookDetailFragment"
@@ -26,5 +30,9 @@
         <argument
             android:name="bookId"
             app:argType="integer" />
+        <argument
+            android:name="fromSavedBooks"
+            app:argType="boolean"
+            android:defaultValue="false" />
     </fragment>
 </navigation>

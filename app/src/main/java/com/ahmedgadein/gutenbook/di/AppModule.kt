@@ -29,9 +29,10 @@ class AppModule {
     @Provides
     fun provideBookRepository(
         ioDispatcher: CoroutineDispatcher,
+        dao: BookDao,
         service: BookService
     ): BookRepository =
-        BookRepositoryImpl(service, ioDispatcher)
+        BookRepositoryImpl(service, dao, ioDispatcher)
 
     @Provides
     fun provideAllBooksUseCase(repository: BookRepository): AllBooksUseCase =

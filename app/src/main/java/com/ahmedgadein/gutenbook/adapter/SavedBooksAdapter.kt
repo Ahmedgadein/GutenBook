@@ -2,18 +2,17 @@ package com.ahmedgadein.gutenbook.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.navigation.Navigation.findNavController
 import androidx.navigation.findNavController
-import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ahmedgadein.gutenbook.R
 import com.ahmedgadein.gutenbook.data.models.Book
 import com.ahmedgadein.gutenbook.databinding.BookItemListBinding
 import com.ahmedgadein.gutenbook.presentation.books.BooksFragmentDirections
+import com.ahmedgadein.gutenbook.presentation.savedbooks.SavedBooksDirections
 import com.bumptech.glide.Glide
 
-class BookAdapter : PagingDataAdapter<Book, RecyclerView.ViewHolder>(BookDiffCallback()) {
+class SavedBooksAdapter : ListAdapter<Book, RecyclerView.ViewHolder>(BookDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return BookViewHolder(
             BookItemListBinding.inflate(
@@ -42,7 +41,7 @@ class BookAdapter : PagingDataAdapter<Book, RecyclerView.ViewHolder>(BookDiffCal
         private fun navigateToDetails() {
             book?.let {
                 itemView.findNavController()
-                    .navigate(BooksFragmentDirections.actionBooksToBookDetailFragment(it.id))
+                    .navigate(SavedBooksDirections.actionSavedBooksToBookDetailFragment(it.id, fromSavedBooks = true))
             }
         }
 
@@ -57,16 +56,5 @@ class BookAdapter : PagingDataAdapter<Book, RecyclerView.ViewHolder>(BookDiffCal
                     .into(binding.bookPhoto)
             }
         }
-    }
-}
-
-class BookDiffCallback : DiffUtil.ItemCallback<Book>() {
-
-    override fun areItemsTheSame(oldItem: Book, newItem: Book): Boolean {
-        return oldItem.id == newItem.id
-    }
-
-    override fun areContentsTheSame(oldItem: Book, newItem: Book): Boolean {
-        return oldItem == newItem
     }
 }

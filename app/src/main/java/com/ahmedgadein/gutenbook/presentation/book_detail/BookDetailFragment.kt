@@ -5,11 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ahmedgadein.gutenbook.adapter.PersonAdapter
 import com.ahmedgadein.gutenbook.adapter.StringItemsAdapter
@@ -21,6 +21,7 @@ import kotlinx.coroutines.flow.collect
 class BookDetailFragment : Fragment() {
     private val viewModel: BookDetailViewModel by viewModels()
     private lateinit var binding: BookDetailFragmentBinding
+    private val args: BookDetailFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,9 +29,6 @@ class BookDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = BookDetailFragmentBinding.inflate(inflater, container, false)
-        (activity as AppCompatActivity?)!!.setSupportActionBar(binding.collapsingActionBar)
-        (activity as AppCompatActivity?)!!.supportActionBar?.setDisplayShowTitleEnabled(false)
-
         setUI()
         return binding.root
     }
@@ -66,7 +64,7 @@ class BookDetailFragment : Fragment() {
         }
 
         lifecycleScope.launchWhenStarted {
-            viewModel.getBook(BookDetailFragmentArgs.fromBundle(arguments!!).bookId)
+            viewModel.getBook(args.bookId, args.fromSavedBooks)
             viewModel.state.collect {
                 it.messages.firstOrNull()?.let {
                     showToast(it.content)
@@ -86,6 +84,10 @@ class BookDetailFragment : Fragment() {
                     binding.book = book
 
                     binding.saveBookFab.setOnClickListener {
+                        if (args.fromSavedBooks) {
+                            showToast("Book already saved!")
+                            return@setOnClickListener
+                        }
                         viewModel.addBook(book)
                     }
                 }

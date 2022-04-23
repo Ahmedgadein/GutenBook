@@ -6,5 +6,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface BookRepository {
     suspend fun getBooks(page: Int = 1): Flow<Result<List<Book>>>
+    suspend fun getSavedBooks(): Flow<List<Book>>
     suspend fun getBook(id: Int): Flow<Result<Book>>
 }

@@ -1,4 +1,4 @@
-package com.ahmedgadein.gutenbook.presentation.books
+package com.ahmedgadein.gutenbook.presentation
 
 import com.ahmedgadein.gutenbook.data.models.Book
 import com.ahmedgadein.gutenbook.data.models.Message

@@ -1,16 +1,20 @@
 package com.ahmedgadein.gutenbook.data.repository
 
+import com.ahmedgadein.gutenbook.data.local.BookDao
 import com.ahmedgadein.gutenbook.data.models.Book
 import com.ahmedgadein.gutenbook.data.models.Result
 import com.ahmedgadein.gutenbook.data.remote.BookService
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.withContext
 import retrofit2.await
 import javax.inject.Inject
 
 class BookRepositoryImpl @Inject constructor(
     private val service: BookService,
+    private val dao: BookDao,
     private val ioDispatcher: CoroutineDispatcher
 ) :
     BookRepository {
@@ -21,6 +25,13 @@ class BookRepositoryImpl @Inject constructor(
             emit(Result.Success(response.results))
         } catch (exception: Exception) {
             emit(Result.Error(exception.toString()))
+        }
+    }
+
+    override suspend fun getSavedBooks(): Flow<List<Book>> = channelFlow {
+        withContext(ioDispatcher) {
+            val result = dao.getAllBooks()
+            send(result)
         }
     }
 

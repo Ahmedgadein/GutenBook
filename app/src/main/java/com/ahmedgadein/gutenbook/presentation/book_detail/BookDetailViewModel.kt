@@ -28,8 +28,13 @@ class BookDetailViewModel @Inject constructor(
     private val _state = MutableStateFlow(BookDetailUiState())
     val state = _state.asStateFlow()
 
-    suspend fun getBook(id: Int) {
-        withContext(viewModelScope.coroutineContext) {
+    suspend fun getBook(id: Int, isSaved: Boolean) {
+        if (isSaved) {
+            loadBookFromDatabase(id)
+            return
+        }
+
+        viewModelScope.launch {
             repository.getBook(id).collect { bookResult ->
                 when (bookResult) {
                     Result.Loading -> _state.update {
@@ -39,6 +44,17 @@ class BookDetailViewModel @Inject constructor(
                     is Result.Success -> _state.update {
                         it.copy(loading = false, book = bookResult.value)
                     }
+                }
+            }
+        }
+    }
+
+    private fun loadBookFromDatabase(id: Int) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                val book = dao.getBook(id)
+                _state.update {
+                    it.copy(loading = false, book = book)
                 }
             }
         }

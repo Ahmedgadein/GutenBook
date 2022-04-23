@@ -5,10 +5,9 @@
     android:layout_height="match_parent"
     tools:context=".presentation.savedbooks.SavedBooks">
 
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/savedBooksRecyclerview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="Saved Books" />
+        android:layout_height="match_parent"/>
 
 </FrameLayout>
