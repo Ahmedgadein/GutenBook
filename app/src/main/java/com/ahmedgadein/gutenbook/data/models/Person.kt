@@ -1,8 +1,9 @@
 package com.ahmedgadein.gutenbook.data.models
 
-
+import androidx.room.Entity
 import com.google.gson.annotations.SerializedName
 
+@Entity
 data class Person(
     @SerializedName("birth_year")
     val birthYear: Int,

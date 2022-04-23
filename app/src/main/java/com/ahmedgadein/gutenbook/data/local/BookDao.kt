@@ -1,0 +1,16 @@
+package com.ahmedgadein.gutenbook.data.local
+
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import com.ahmedgadein.gutenbook.data.models.Book
+
+@Dao
+interface BookDao {
+    @Query("Select * from book where id = :id")
+    fun getBook(id: Int): Book
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun upsert(book: Book)
+}

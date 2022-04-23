@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -28,6 +29,7 @@ class BookDetailFragment : Fragment() {
     ): View {
         binding = BookDetailFragmentBinding.inflate(inflater, container, false)
         (activity as AppCompatActivity?)!!.setSupportActionBar(binding.collapsingActionBar)
+        (activity as AppCompatActivity?)!!.supportActionBar?.setDisplayShowTitleEnabled(false)
 
         setUI()
         return binding.root
@@ -66,21 +68,32 @@ class BookDetailFragment : Fragment() {
         lifecycleScope.launchWhenStarted {
             viewModel.getBook(BookDetailFragmentArgs.fromBundle(arguments!!).bookId)
             viewModel.state.collect {
-                it.messages.firstOrNull()?.let {}
+                it.messages.firstOrNull()?.let {
+                    showToast(it.content)
+                    viewModel.messageShown(it.id)
+                }
                 binding.bookDetailProgressBar.isVisible = it.loading
-                it.book?.let {
-                    binding.bookTitle.text = it.title
-                    languageAdapter.submitList(it.languages)
-                    bookshelfAdapter.submitList(it.bookshelves)
-                    authorAdapter.submitList(it.authors)
-                    it.translators.let {
+                it.book?.let { book ->
+                    binding.bookTitle.text = book.title
+                    languageAdapter.submitList(book.languages)
+                    bookshelfAdapter.submitList(book.bookshelves)
+                    authorAdapter.submitList(book.authors)
+                    book.translators.let {
                         if (it.isNullOrEmpty())
                             binding.noTranslatorsTextView.isVisible = true
                         translatorAdapter.submitList(it)
                     }
-                    binding.book = it
+                    binding.book = book
+
+                    binding.saveBookFab.setOnClickListener {
+                        viewModel.addBook(book)
+                    }
                 }
             }
         }
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 }
