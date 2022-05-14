@@ -9,6 +9,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ahmedgadein.gutenbook.adapter.PersonAdapter
@@ -70,7 +71,9 @@ class BookDetailFragment : Fragment() {
                     showToast(it.content)
                     viewModel.messageShown(it.id)
                 }
+
                 binding.bookDetailProgressBar.isVisible = it.loading
+
                 it.book?.let { book ->
                     binding.bookTitle.text = book.title
                     languageAdapter.submitList(book.languages)
@@ -81,7 +84,20 @@ class BookDetailFragment : Fragment() {
                             binding.noTranslatorsTextView.isVisible = true
                         translatorAdapter.submitList(it)
                     }
+
                     binding.book = book
+
+                    binding.readBook.apply {
+                        isVisible = !it.loading
+                        setOnClickListener {
+                            findNavController().navigate(
+                                BookDetailFragmentDirections.actionBookDetailFragmentToBookReadFragment(
+                                    title = book.title,
+                                    content = book.formats.texthtml!!
+                                )
+                            )
+                        }
+                    }
 
                     binding.saveBookFab.setOnClickListener {
                         if (args.fromSavedBooks) {

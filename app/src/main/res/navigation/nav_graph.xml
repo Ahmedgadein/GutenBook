@@ -34,5 +34,19 @@
             android:name="fromSavedBooks"
             app:argType="boolean"
             android:defaultValue="false" />
+        <action
+            android:id="@+id/action_bookDetailFragment_to_bookReadFragment"
+            app:destination="@id/bookReadFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/bookReadFragment"
+        android:name="com.ahmedgadein.gutenbook.presentation.book_read.BookReadFragment"
+        android:label="BookReadFragment" >
+        <argument
+            android:name="content"
+            app:argType="string" />
+        <argument
+            android:name="title"
+            app:argType="string" />
     </fragment>
 </navigation>

@@ -4,12 +4,6 @@ package com.ahmedgadein.gutenbook.data.models
 import com.google.gson.annotations.SerializedName
 
 data class Formats(
-    @SerializedName("application/epub+zip")
-    val applicationepubzip: String?,
-    @SerializedName("application/rdf+xml")
-    val applicationrdfxml: String?,
-    @SerializedName("application/x-mobipocket-ebook")
-    val applicationxMobipocketEbook: String?,
     @SerializedName("application/zip")
     val applicationzip: String?,
     @SerializedName("image/jpeg")

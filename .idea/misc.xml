@@ -8,6 +8,7 @@
         <entry key="app/src/main/res/layout/book_detail_fragment.xml" value="0.2" />
         <entry key="app/src/main/res/layout/book_item_list.xml" value="0.264" />
         <entry key="app/src/main/res/layout/books_fragment.xml" value="0.2" />
+        <entry key="app/src/main/res/layout/fragment_book_read.xml" value="0.176" />
         <entry key="app/src/main/res/layout/home_fragment.xml" value="0.16979166666666667" />
         <entry key="app/src/main/res/layout/language_item_list.xml" value="0.4" />
         <entry key="app/src/main/res/layout/person_item_list.xml" value="0.4" />

@@ -5,6 +5,7 @@ import com.ahmedgadein.gutenbook.data.models.Book
 import com.ahmedgadein.gutenbook.data.models.Result
 import com.ahmedgadein.gutenbook.data.remote.BookService
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.flow
@@ -12,6 +13,7 @@ import kotlinx.coroutines.withContext
 import retrofit2.await
 import javax.inject.Inject
 
+@ExperimentalCoroutinesApi
 class BookRepositoryImpl @Inject constructor(
     private val service: BookService,
     private val dao: BookDao,
