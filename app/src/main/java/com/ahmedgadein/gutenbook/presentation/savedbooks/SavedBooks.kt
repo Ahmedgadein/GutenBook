@@ -52,6 +52,11 @@ class SavedBooks : Fragment() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        viewModel.loadSavedBooks()
+    }
+
     private fun showSnackbar(message: String) {
         Snackbar.make(view!!, message, Snackbar.LENGTH_SHORT)
             .show()

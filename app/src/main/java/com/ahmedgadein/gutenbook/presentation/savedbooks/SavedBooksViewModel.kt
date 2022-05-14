@@ -25,14 +25,10 @@ class SavedBooksViewModel @Inject constructor(private val repository: BookReposi
     private val _state = MutableStateFlow(BooksUiState())
     val state = _state.asStateFlow()
 
-    private fun loadSavedBooks() {
+    fun loadSavedBooks() {
         viewModelScope.launch {
             repository.getSavedBooks().collect { result ->
-                result.let { books ->
-                    if (!books.isNullOrEmpty()) {
-                        _state.update { it.copy(books = books) }
-                    }
-                }
+                _state.update { it.copy(books = result) }
             }
         }
     }
